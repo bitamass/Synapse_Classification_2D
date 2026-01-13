@@ -2,6 +2,7 @@ Synapse E/I Classification from MICrONS EM Images
 
 This repository contains the full workflow for training a deep learning model that predicts the presynaptic identity of neurons (excitatory vs inhibitory) from synapse-centered electron microscopy (EM) image patches extracted from the MICrONS minnie65 dataset.
 
+
 Project Overview
 
 This project investigates a central question in cortical connectomics:
@@ -22,6 +23,7 @@ Train a 2D CNN classifier (PyTorch) to predict E/I identity from single-slice EM
 
 Evaluate performance using accuracy, balanced accuracy, ROC, PR curves, and confusion matrices.
 
+
 Repository Structure
 Synapse_Classification_2D/
 │
@@ -33,6 +35,7 @@ Synapse_Classification_2D/
 
 
 Note: Raw EM imagery and extracted synapse patches are not included in the repository due to MICrONS data licensing. Users must download data using the official CAVEclient.
+
 
 Model Summary
 
@@ -54,6 +57,7 @@ F1 Score: High and symmetric across classes
 
 These results indicate that local ultrastructure contains informative but incomplete signatures of presynaptic neuron identity, motivating future extensions to multi-slice or 3D volumetric modeling.
 
+
 Environment
 
 Install dependencies:
@@ -66,12 +70,14 @@ Or using conda:
 conda env create -f environment.yml
 conda activate synapse-ei
 
+
 Reference / Citation
 
 If using this code or approach, please cite:
 
 Massoudi, B. (2026).
 Learning Presynaptic Excitatory–Inhibitory Neuron Identity from Synapse-Centered Electron Microscopy Using Deep Learning.
+
 
 About
 
@@ -86,6 +92,7 @@ CAVEclient + CloudVolume
 PyTorch / Python
 
 Google Colab for training
+
 
 Next Steps
 
