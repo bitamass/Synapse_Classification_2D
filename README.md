@@ -29,9 +29,7 @@ Synapse_Classification_2D/
 │
 ├── Synapse_Classification_2D.ipynb    # Training notebook
 ├── README.md                          # Project overview
-├── data_extraction/                   # (optional) Scripts for CAVEclient extraction
-├── results/                           # (optional) Saved metrics and plots
-└── models/                            # (optional) PyTorch model definitions
+
 
 
 Note: Raw EM imagery and extracted synapse patches are not included in the repository due to MICrONS data licensing. Users must download data using the official CAVEclient.
