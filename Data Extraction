@@ -1,0 +1,33 @@
+"""
+Query synapse metadata and presynaptic neuron identities from MICrONS using CAVEclient.
+"""
+
+from caveclient import CAVEclient
+import pandas as pd
+
+def load_synapse_table():
+    client = CAVEclient("minnie65_public")
+
+    # Load synapse metadata
+    syn_df = client.materialize.query_table("synapses_pni_2")
+    return pd.DataFrame(syn_df)
+
+def load_neuron_labels():
+    client = CAVEclient("minnie65_public")
+
+    # Load AIBS cell-type table with excitatory/inhibitory labels
+    label_df = client.materialize.query_table("allen_v1_column_types_slanted_ref")
+    return pd.DataFrame(label_df)
+
+def merge_synapses_with_labels():
+    syn_df = load_synapse_table()
+    label_df = load_neuron_labels()
+
+    merged = syn_df.merge(
+        label_df[["root_id", "cell_type", "classification_system"]],
+        left_on="pre_root_id",
+        right_on="root_id",
+        how="inner"
+    )
+
+    return merged
