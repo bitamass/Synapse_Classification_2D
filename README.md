@@ -31,9 +31,9 @@ Synapse_Classification_2D/
 │
 ├── Synapse_Classification_2D.ipynb    # Main training notebook
 ├── README.md                          # Project overview (this file)
-├── data_extraction/                   # (optional) Scripts for data retrieval
-├── models/                            # (optional) PyTorch model definitions
-└── results/                           # (optional) Saved metrics and plots
+├── data_extraction/                   # Scripts for data retrieval
+├── models/                            # PyTorch model definitions
+└── results/                           # Saved metrics and plots
 ```
 
 > **Note:** Raw EM imagery and extracted synapse patches are *not* included due to MICRONS data licensing.
