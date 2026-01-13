@@ -1,105 +1,110 @@
-Synapse E/I Classification from MICrONS EM Images
-
-This repository contains the full workflow for training a deep learning model that predicts the presynaptic identity of neurons (excitatory vs inhibitory) from synapse-centered electron microscopy (EM) image patches extracted from the MICrONS minnie65 dataset.
 
 
-Project Overview
+# **Synapse E/I Classification from MICrONS EM Images**
 
-This project investigates a central question in cortical connectomics:
+This repository contains the workflow for training a deep learning model that predicts the presynaptic identity of neurons (excitatory vs inhibitory) from synapse-centered electron microscopy (EM) image patches extracted from the MICrONS *minnie65* dataset.
 
-Can local synaptic ultrastructure alone reveal whether the presynaptic neuron is excitatory or inhibitory?
+---
 
-To answer this, we:
+## **Project Overview**
 
-Retrieve synapses from proofread neurons using the MICrONS CAVEclient.
+This project investigates a fundamental question in cortical connectomics:
 
-Merge AIBS and Baylor coarse cell-type tables to obtain reliable E/I labels.
+**Can local synaptic ultrastructure alone reveal whether the presynaptic neuron is excitatory or inhibitory?**
 
-Extract synapse-centered EM patches at MIP-0 resolution using CloudVolume.
+To address this question, the workflow includes:
 
-Split synapses by presynaptic neuron (neuron-held-out) to avoid data leakage.
+* **Retrieving synapses and presynaptic neuron identities** from the MICrONS minnie65 dataset using the official CAVEclient.
+* **Using the Allen Institute’s `allen_v1_column_types_slanted_ref` table** to obtain expert-assigned coarse cell-type labels (`aibs_coarse_excitatory` and `aibs_coarse_inhibitory`).
+* **Querying synapse metadata** from the `synapses_pni_2` table and inheriting E/I labels using the `pre_root_id` field.
+* **Extracting synapse-centered 2D EM patches** (via CloudVolume and ImageryClient workflows).
+* **Ensuring neuron-held-out dataset splits** to prevent information leakage across training, validation, and test sets.
+* **Training a 2D CNN classifier (PyTorch)** to infer presynaptic identity from single-slice EM images.
+* **Evaluating model performance** with accuracy, balanced accuracy, confusion matrices, and ROC/PR curves.
 
-Train a 2D CNN classifier (PyTorch) to predict E/I identity from single-slice EM images.
+---
 
-Evaluate performance using accuracy, balanced accuracy, ROC, PR curves, and confusion matrices.
+## **Repository Structure**
 
-
-Repository Structure
+```
 Synapse_Classification_2D/
 │
-├── Synapse_Classification_2D.ipynb    # Training notebook
-├── README.md                          # Project overview
+├── Synapse_Classification_2D.ipynb    # Main training notebook
+├── README.md                          # Project overview (this file)
+├── data_extraction/                   # (optional) Scripts for data retrieval
+├── models/                            # (optional) PyTorch model definitions
+└── results/                           # (optional) Saved metrics and plots
+```
 
+> **Note:** Raw EM imagery and extracted synapse patches are *not* included due to MICRONS data licensing.
+> Users must download data using the official CAVEclient.
 
+---
 
-Note: Raw EM imagery and extracted synapse patches are not included in the repository due to MICrONS data licensing. Users must download data using the official CAVEclient.
+## **Model Summary**
 
+* **Architecture:** ResNet-based CNN
+* **Input:** Synapse-centered 2D EM patches
+* **Labels:** Presynaptic neuron identity (`aibs_coarse_excitatory` vs `aibs_coarse_inhibitory`)
+* **Splitting strategy:** Strict **neuron-held-out** partitioning
+* **Performance:**
 
-Model Summary
+  * **Accuracy:** ~0.83
+  * **Balanced Accuracy:** ~0.83
+  * **F1 Score:** High and symmetric across classes
 
-Architecture: ResNet-based CNN
+These results demonstrate that **local synaptic ultrastructure encodes meaningful but incomplete information** about presynaptic neuron identity, motivating future exploration of multi-slice and 3D volumetric representations.
 
-Input: 2D EM patches, synapse-centered
+---
 
-Labels: Presynaptic neuron identity (excitatory/inhibitory)
-
-Splitting: Neuron-held-out (strict)
-
-Achieved performance:
-
-Accuracy: ~0.83
-
-Balanced Accuracy: ~0.83
-
-F1 Score: High and symmetric across classes
-
-These results indicate that local ultrastructure contains informative but incomplete signatures of presynaptic neuron identity, motivating future extensions to multi-slice or 3D volumetric modeling.
-
-
-Environment
+## **Environment**
 
 Install dependencies:
 
+```
 pip install -r requirements.txt
+```
 
+Or using Conda:
 
-Or using conda:
-
+```
 conda env create -f environment.yml
 conda activate synapse-ei
+```
 
+---
 
-Reference / Citation
+## **Reference / Citation**
 
 If using this code or approach, please cite:
 
-Massoudi, B. (2026).
-Learning Presynaptic Excitatory–Inhibitory Neuron Identity from Synapse-Centered Electron Microscopy Using Deep Learning.
+**Massoudi, B. (2026).
+Learning Presynaptic Excitatory–Inhibitory Neuron Identity from Synapse-Centered Electron Microscopy Using Deep Learning.**
 
+---
 
-About
+## **About**
 
 This project was completed using:
 
-MICrONS minnie65 dataset
+* MICrONS *minnie65* dataset
+* Allen Institute neuron classification table (`allen_v1_column_types_slanted_ref`)
+* Synapse metadata (`synapses_pni_2`)
+* CAVEclient + CloudVolume
+* PyTorch (Python)
+* Google Colab for model training
 
-AIBS + Baylor cell-type annotations
+---
 
-CAVEclient + CloudVolume
-
-PyTorch / Python
-
-Google Colab for training
-
-
-Next Steps
+## **Next Steps**
 
 Planned extensions include:
 
-Multi-slice synapse volumes
+* Multi-slice synapse volumes
+* Incorporation of postsynaptic identity
+* Morphological and segmentation-based feature integration
+* Full 3D volumetric CNN models for synapse classification
 
-Postsynaptic identity incorporation
+---
 
-Morphological integration
 
-Higher-resolution representations
