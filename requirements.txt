@@ -1,0 +1,11 @@
+caveclient
+cloud-volume
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+pillow
+torch
+torchvision
+jupyter
